@@ -1,4 +1,4 @@
-# OpenAntumIDSoapServer
+# OpenAntumID-SOAP-SERVER
 Open AntumID SOAP Server 1.1
 
 Soon more information.
