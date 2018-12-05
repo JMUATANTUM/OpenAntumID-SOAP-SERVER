@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions name="messageService" targetNamespace="urn:messageService" xmlns:typens="urn:messageService" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+    <types>
+        <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:messageService">
+			<xsd:complexType name="Message">
+				<xsd:all>
+                    <xsd:element name="AuthenticationRequestType" type="xsd:string"/>
+                    <xsd:element name="AuthenticationRequestReturnType" type="xsd:string"/>
+                    <xsd:element name="AuthenticationRequestReturnFields" type="xsd:string"/>
+                    <xsd:element name="AuthenticationRequestGUID" type="xsd:string"/>
+                    <xsd:element name="AuthenticationRequestClientIP" type="xsd:string"/>
+                    <xsd:element name="AuthenticationValidateTokenID" type="xsd:string"/>
+                </xsd:all>
+            </xsd:complexType></xsd:schema>
+	</types>
+    <message name="sendMessage">
+        <part name="m" type="typens:Message"/>
+    </message>
+    <message name="sendMessageResponse">
+        <part name="sendMessageReturn" type="xsd:string"/>
+    </message>
+    <portType name="AntumID-serverPortType">
+		<operation name="sendMessage">
+			<documentation>
+				Send AntumID based command (Message Class)
+			</documentation>
+            <input message="typens:sendMessage"/>
+            <output message="typens:sendMessageResponse"/>
+        </operation>
+	</portType>
+    <binding name="AntumID-serverBinding" type="typens:AntumID-serverPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="sendMessage">
+            <soap:operation soapAction="urn:AntumID-serverAction"/>
+            <input>
+                <soap:body namespace="urn:messageService" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:messageService" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="messageServiceService">
+		<port name="AntumID-serverPort" binding="typens:AntumID-serverBinding">
+			<soap:address location="https://www.go4ict.be/dgb-services/api/v1/server.php"/>
+        </port>	</service>
+</definitions>
